@@ -5,3 +5,4 @@ Em.onLoad 'Ember.Application', (application) ->
 
     initialize: (container, app) ->
       app.register 'authModule:emberModel', Em.Auth.EmberModelAuthModule
+      app.inject 'authModule:emberModel', 'auth', 'auth:main'
