@@ -20,7 +20,7 @@ describe 'Em.Auth.EmberModelAuthModule', ->
     afterEach ->
       Em.run ->
         auth.userId = null
-        auth.emberModel.userModel = null
+        emberModel.config.userModel = null
 
     describe 'userId not set', ->
       beforeEach -> Em.run -> auth.userId = null
@@ -30,7 +30,7 @@ describe 'Em.Auth.EmberModelAuthModule', ->
         expect(spy).not.toHaveBeenCalled()
 
     describe 'userModel not set', ->
-      beforeEach -> Em.run -> auth.emberModel.userModel = null
+      beforeEach -> Em.run -> emberModel.config.userModel = null
 
       it 'does nothing', ->
         Em.run -> emberModel.findUser()
@@ -42,7 +42,7 @@ describe 'Em.Auth.EmberModelAuthModule', ->
       describe 'userModel set', ->
         beforeEach ->
           Em.run ->
-            auth.emberModel.userModel = 'foo'
+            emberModel.config.userModel = 'foo'
             sinon.collection.stub Em, 'get', -> foo
 
         it 'delegates to (user model)#fetch', ->
