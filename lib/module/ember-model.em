@@ -1,6 +1,7 @@
 class Em.Auth.EmberModelAuthModule
   init: ->
-    @config? || (@config = @auth.emberModel)
+    @auth._config 'emberModel', @_defaultConfig
+    @config? || (@config = @auth._config 'emberModel')
     @patch()
 
     @auth.reopen
@@ -9,6 +10,12 @@ class Em.Auth.EmberModelAuthModule
     @auth.addHandler 'signInSuccess',  @findUser.bind(@)
     @auth.addHandler 'signInError',    @clearUser.bind(@)
     @auth.addHandler 'signOutSuccess', @clearUser.bind(@)
+
+  _defaultConfig:
+    # [string|false] enable auto-loading user model by setting this to a
+    #   *string* of the model type, as in 'App.User', not App.User
+    #   or false to disable auto-loading user model
+    userModel: false
 
   # @property [Ember.Model|null] current signed in user, if signed in and
   #   enabled auto-find user; otherwise null
