@@ -7,9 +7,14 @@ class Em.Auth.EmberModelAuthModule
     @auth.reopen
       user: Em.computed.alias 'module.emberModel.user'
 
-    @auth.addHandler 'signInSuccess',  @findUser.bind(@)
-    @auth.addHandler 'signInError',    @clearUser.bind(@)
-    @auth.addHandler 'signOutSuccess', @clearUser.bind(@)
+    @signInSuccessHandler = @auth.addHandler 'signInSuccess',  @findUser.bind(@)
+    @signInErrorHandler = @auth.addHandler 'signInError',    @clearUser.bind(@)
+    @signOutSuccessHandler = @auth.addHandler 'signOutSuccess', @clearUser.bind(@)
+
+  willDestroy: ->
+    @auth.removeHandler 'signInSuccess', @signInSuccessHandler
+    @auth.removeHandler 'signInError', @signInErrorHandler
+    @auth.removeHandler 'signOutSuccess', @signOutSuccessHandler
 
   _defaultConfig:
     # [string|false] enable auto-loading user model by setting this to a
